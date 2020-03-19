@@ -1,0 +1,143 @@
+syntax = "proto2";
+package hdfs;
+option java_package = "ds.hdfs";
+option java_outer_classname = "HdfsProto";
+
+//message to open a file with read or write permission
+message OpenFileRequest{
+  required string filename = 1;
+  enum Flag {
+    O_RDONLY = 0;//read only
+    O_WRONLY = 1;//write and create
+    O_RDWR = 2;  //write and update
+  }
+  optional Flag flag = 2 [default = O_RDONLY];
+}
+message OpenFileResponse{
+  required int32  filedescriptor = 1[default = 0];//On error, -1 is returned
+  optional DataNodeInfo datanode = 2;
+}
+
+//message to close a file with a open filedescriptor
+//returns zero on success. On error, -1 is returned.
+message CloseFileRequest{
+  optional int32  filedescriptor = 1;
+}
+message CloseFileResponse{
+  optional int32  status = 1;
+}
+
+//message to assign a block number to Data Node ips.
+message AssignBlockRequest{
+  optional int32  filedescriptor = 1;
+}
+message AssignBlockResponse{
+  optional int32 blocknumber = 1;
+  /*
+  message DataNode{
+    optional string servername = 1;
+    optional string ipaddr = 2;
+    optional int32  portnum = 3;
+  }
+  */
+  repeated DataNodeInfo datanode = 2;
+  optional int32 status = 3;
+}
+
+//message to list all files
+//On error, negative number is returned.
+message ListFileRequest{
+  optional string dir = 1;//no use for directory in this project
+}
+message ListFileResponse{
+  repeated string filename = 1;
+  optional int32  status = 2;
+}
+
+//message for block locations
+message BlockLocationsRequest{
+  optional int32 blocknumber = 1;
+}
+message BlockLocationsResponse{
+  repeated DataNodeInfo datanode = 1;
+  optional int32 status = 2;
+}
+
+//message to report blocks in Data Node
+message BlockReportRequest{
+  message Block{
+    optional int32 blocknumber = 1;
+    optional DataNodeInfo datanode = 2;
+  }
+  repeated Block block = 1;
+}
+message BlockReportResponse{
+  optional int32 status = 1;
+}
+
+//message for HeartBeat
+message HeartBeatRequest{
+  optional DataNodeInfo datanode = 1;
+}
+message HeartBeatResponse{
+  optional int32 status = 1;
+}
+
+// message for NameNode to map a file to blocks distributed in different Data Nodes
+message FileInfoInNameNode{
+  required string filename = 1;
+  // message for NameNode to map a File to block numbers
+  message Block{
+    required int32 blocknumber = 1;
+    /*
+    // message for NameNode to map the block to Data Node ips
+    message DataNode{
+      optional string servername = 1;
+      optional string ipaddr = 2;
+      optional int32  portnum = 3;
+    }
+    */
+    repeated DataNodeInfo datanode = 2;
+  }
+  repeated Block block = 2;
+  optional bool  writemode = 3;
+}
+
+//message for NameNode to handle the list of files
+message FileListInNameNode{
+  repeated FileInfoInNameNode file = 1;
+}
+
+// message for DataNode to map the blocks to local location
+message DNBlocksinLocal{
+  required int32 blocknumber = 1;
+  repeated string localpath = 2;
+}
+
+//message to read data from a block
+message ReadBlock{
+  required int32 blocknumber = 1;
+  //repeated bytes data = 2;
+  optional int32 status = 2;  //On error, negative number is returned.
+}
+
+//message to write data to a block
+message WriteBlock{
+  required int32 blocknumber = 1;
+  repeated bytes data = 2;
+  repeated DataNodeInfo datanode = 3;
+  optional int32 status = 4;  //On error, negative number is returned.
+}
+
+// Data Node Report the ip addr with blocks
+message DNReportBlocks {
+    optional DataNodeInfo datanode = 1;
+    repeated int32 blocknumber = 2;
+}
+
+//message for DataNode: id(server name), ip addr, port
+message DataNodeInfo{
+  optional string servername = 1;
+  optional string ipaddr = 2;
+  optional int32  portnum = 3;
+}
