@@ -201,12 +201,12 @@ public class NameNode implements INameNode{
 				//and if open flag is for writing. If true, return null.
 				if(openFileList.containsValue(file_name) && file_rw_flag != ds.hdfs.HdfsProto.OpenFileRequest.Flag.O_RDONLY){
 						response.setFiledescriptor(-1);
-						response.setDatanode(null);
+						response.setDatanode((DataNodeInfo) null);
 						return response.build().toByteArray();	
 				//If for reading, check if file exists in system 
 				}else if(!fileTable.containsValue(file_name) && file_rw_flag == ds.hdfs.HdfsProto.OpenFileRequest.Flag.O_RDONLY) {
 					response.setFiledescriptor(-1);
-					response.setDatanode(null);
+					response.setDatanode((DataNodeInfo) null);
 					return response.build().toByteArray();					
 				}
 			}
@@ -223,12 +223,12 @@ public class NameNode implements INameNode{
 			}
 
 			response.setFiledescriptor(fd);
-			response.setDatanode(null);			
+			response.setDatanode((DataNodeInfo) null);
 		}catch (Exception e){
 			System.err.println("Error at " + this.getClass() + e.toString());
 			e.printStackTrace();
 			response.setFiledescriptor(-1);
-			response.setDatanode(null);
+			response.setDatanode((DataNodeInfo) null);
 		}
 		return response.build().toByteArray();
 	}
@@ -416,15 +416,12 @@ public class NameNode implements INameNode{
 		BlockReportResponse.Builder response = BlockReportResponse.newBuilder();		
 		try{
 			request = BlockReportRequest.parseFrom(inp);
-			
-			for(BlockReportRequest.Block block: request.getBlockList()) {
-				int block_num = block.getBlocknumber();
-				DataNodeInfo dnodeInfo = block.getDatanode();
-				String uid = dnodeInfo.getServername();
-				String ipaddr = dnodeInfo.getIpaddr();
-				int port = dnodeInfo.getPortnum();			
-				DataNode dnode = new DataNode(ipaddr,port,uid);
-				
+			DataNodeInfo dnodeInfo =request.getDatanode();
+			String uid = dnodeInfo.getServername();
+			String ipaddr = dnodeInfo.getIpaddr();
+			int port = dnodeInfo.getPortnum();
+			DataNode dnode = new DataNode(ipaddr,port,uid);
+			for(int block_num: request.getBlocknumberList()) {
 				if(blockTable.containsKey(block_num)) {
 					ArrayList<DataNode> dnlst_this_block = blockTable.get(block_num);
 					if(dnlst_this_block == null) {

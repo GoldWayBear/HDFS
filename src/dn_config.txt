@@ -1,2 +1,4 @@
-//Each DataNode has this config file: It contains its UniqueIdentifier(Server Name), IP, PORT 
-1;192.168.12.1;2003
+servername:NN
+IP:127.0.0.1
+Port:2004
+BLOCKSIZE(Byte):64
