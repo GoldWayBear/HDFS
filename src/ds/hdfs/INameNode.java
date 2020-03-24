@@ -11,6 +11,8 @@ public interface INameNode extends Remote{
 	
 	/* Method to get block locations given an array of block numbers */
 	byte[] getBlockLocations(byte[] inp ) throws RemoteException;
+
+	byte[] getBlockNumbers(byte[] inp);
 	
 	/* Method to assign a block which will return the replicated block locations */
 	byte[] assignBlock(byte[] inp ) throws RemoteException;

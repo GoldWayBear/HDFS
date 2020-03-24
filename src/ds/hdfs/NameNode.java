@@ -263,6 +263,27 @@ public class NameNode implements INameNode{
 		return response.build().toByteArray();
 	}
 
+	//Returns all the blocks for a given file descriptor
+	public byte[] getBlockNumbers(byte[] inp){
+		BlockNumberRequest request = null;
+		BlockNumberResponse.Builder response = BlockNumberResponse.newBuilder();
+		try {
+			request = BlockNumberRequest.parseFrom(inp);
+			int fd = request.getFiledescriptor();
+			//Use the fd to get the filename and use the filename to get the file Metadata
+			String fn = openFileList.get(fd);
+			FileInfo info = fileTable.get(fn);
+			response.addAllBlocknumbers(info.Chunks);
+			response.setStatus(1);
+		}
+		catch(Exception e){
+			System.err.println("Error at getBlockNumbers  "+ e.toString());
+			e.printStackTrace();
+			response.setStatus(-1);
+		}
+		return response.build().toByteArray();
+	}
+
 	public byte[] getBlockLocations(byte[] inp ) throws RemoteException	{
 		BlockLocationsRequest request = null;
 		BlockLocationsResponse.Builder response = BlockLocationsResponse.newBuilder();

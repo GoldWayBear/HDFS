@@ -27,16 +27,6 @@ message CloseFileResponse{
   optional int32  status = 1;
 }
 
-//message to get block numbers assigned to a file
-message BlockNumberRequest{
-    required int32 filedescriptor = 1;
-}
-
-message BlockNumberResponse{
-    repeated int32 blocknumbers = 1;
-    optional int32 status = 2;
-}
-
 //message to assign a block number to Data Node ips.
 message AssignBlockRequest{
   optional int32  filedescriptor = 1;

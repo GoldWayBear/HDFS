@@ -1,0 +1,4 @@
+servername:NN
+IP:127.0.0.1
+Port:2004
+BLOCKSIZE(Byte):64

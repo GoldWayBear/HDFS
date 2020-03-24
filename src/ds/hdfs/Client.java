@@ -95,7 +95,14 @@ public class Client
                     }
                 }
             }
+            //Close File locally and in File System
             bis.close();
+            CloseFileRequest.Builder closerequest = CloseFileRequest.newBuilder();
+            closerequest.setFiledescriptor(fd);
+            output = NNStub.closeFile(closerequest.build().toByteArray());
+            CloseFileResponse closeresponse = CloseFileResponse.parseFrom(output);
+            //Make sure file was closed properly
+            if(closeresponse.getStatus() < 0){ throw new Exception("Retrieved File but could not close File in File System");}
         }catch(Exception e){
             System.err.println("Error Writing File"+ e.toString());
             e.printStackTrace();
@@ -105,17 +112,71 @@ public class Client
 
     public void GetFile(String FileName)
     {
-        //TODO: Modify NameNode to provide blocknumber and DataNodes for a given FileDescriptor
         try {
             OpenFileRequest.Builder request = OpenFileRequest.newBuilder();
             request.setFilename(FileName);
             request.setFlag(OpenFileRequest.Flag.O_RDONLY);
+            //Send OpenFile Request and get FileDescriptor
             byte[] output = NNStub.openFile(request.build().toByteArray());
             OpenFileResponse response = OpenFileResponse.parseFrom(output);
             int fd = response.getFiledescriptor();
+            //Send BlockNumber Request and get the blocks for the file
+            BlockNumberRequest.Builder blockrequest = BlockNumberRequest.newBuilder();
+            blockrequest.setFiledescriptor(fd);
+            output = NNStub.getBlockNumbers(blockrequest.build().toByteArray());
+            BlockNumberResponse blockresponse = BlockNumberResponse.parseFrom(output);
+            List<Integer> blocks = blockresponse.getBlocknumbersList();
+            //Open the local file
+            File out = new File(FileName);
+            OutputStream os = new FileOutputStream(out);
+            //Loop through each block
+            for(int block: blocks){
+                //For each block get the datanodes for them
+                BlockLocationsRequest.Builder locationrequest = BlockLocationsRequest.newBuilder();
+                locationrequest.setBlocknumber(block);
+                output = NNStub.getBlockLocations(locationrequest.build().toByteArray());
+                BlockLocationsResponse locationresponse = BlockLocationsResponse.parseFrom(output);
+                //Loop throught the datanodes
+                for(int i = 0; i < locationresponse.getDatanodeCount(); i++){
+                    try {
+                        //Get the data for the block from the DataNode
+                        DataNodeInfo dn = locationresponse.getDatanode(i);
+                        DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
+                        ReadBlock.Builder readrequest = ReadBlock.newBuilder();
+                        readrequest.setBlocknumber(block);
+                        output = DNStub.readBlock(readrequest.build().toByteArray());
+                        ReadBlockResponse readresponse = ReadBlockResponse.parseFrom(output);
+                        //If DataNode returned invalid response throw an error
+                        if(readresponse.getStatus() < 0){ throw new Exception(); }
+                        //Response is ok, write the block and move onto the next block
+                        os.write(readresponse.getData().toByteArray());
+                        break;
+                    }
+                    //Catches if one datanode was not able to retrieve block
+                    catch(Exception e){
+                        //If looped through all datanodes for this block without successfuly getting the block throw an error
+                        if(i == (locationresponse.getDatanodeCount() - 1)){
+                            throw new Exception("Unable to retrieve a portion of this file");
+                        }
+                        else{ //try the next DataNode
+                            continue;
+                        }
+                    }
+
+                }
+
+            }
+            //Close Local and FileSystem files
+            os.close();
+            CloseFileRequest.Builder closerequest = CloseFileRequest.newBuilder();
+            closerequest.setFiledescriptor(fd);
+            output = NNStub.closeFile(closerequest.build().toByteArray());
+            CloseFileResponse closeresponse = CloseFileResponse.parseFrom(output);
+            //Make sure file was closed properly
+            if(closeresponse.getStatus() < 0){ throw new Exception("Retrieved File but could not close File in File System");}
         }
         catch(Exception e){
-            System.err.println("Error retreiving File"+ e.toString());
+            System.err.println("Error retreiving File: "+ e.toString());
             e.printStackTrace();
             return;
         }

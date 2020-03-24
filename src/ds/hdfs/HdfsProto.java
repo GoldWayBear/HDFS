@@ -2681,6 +2681,1241 @@ public final class HdfsProto {
 
   }
 
+  public interface BlockNumberRequestOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:hdfs.BlockNumberRequest)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>required int32 filedescriptor = 1;</code>
+     * @return Whether the filedescriptor field is set.
+     */
+    boolean hasFiledescriptor();
+    /**
+     * <code>required int32 filedescriptor = 1;</code>
+     * @return The filedescriptor.
+     */
+    int getFiledescriptor();
+  }
+  /**
+   * <pre>
+   *message to get block numbers assigned to a file
+   * </pre>
+   *
+   * Protobuf type {@code hdfs.BlockNumberRequest}
+   */
+  public  static final class BlockNumberRequest extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:hdfs.BlockNumberRequest)
+      BlockNumberRequestOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BlockNumberRequest.newBuilder() to construct.
+    private BlockNumberRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BlockNumberRequest() {
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BlockNumberRequest();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BlockNumberRequest(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              bitField0_ |= 0x00000001;
+              filedescriptor_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberRequest_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberRequest_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ds.hdfs.HdfsProto.BlockNumberRequest.class, ds.hdfs.HdfsProto.BlockNumberRequest.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int FILEDESCRIPTOR_FIELD_NUMBER = 1;
+    private int filedescriptor_;
+    /**
+     * <code>required int32 filedescriptor = 1;</code>
+     * @return Whether the filedescriptor field is set.
+     */
+    public boolean hasFiledescriptor() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>required int32 filedescriptor = 1;</code>
+     * @return The filedescriptor.
+     */
+    public int getFiledescriptor() {
+      return filedescriptor_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      if (!hasFiledescriptor()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeInt32(1, filedescriptor_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, filedescriptor_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ds.hdfs.HdfsProto.BlockNumberRequest)) {
+        return super.equals(obj);
+      }
+      ds.hdfs.HdfsProto.BlockNumberRequest other = (ds.hdfs.HdfsProto.BlockNumberRequest) obj;
+
+      if (hasFiledescriptor() != other.hasFiledescriptor()) return false;
+      if (hasFiledescriptor()) {
+        if (getFiledescriptor()
+            != other.getFiledescriptor()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (hasFiledescriptor()) {
+        hash = (37 * hash) + FILEDESCRIPTOR_FIELD_NUMBER;
+        hash = (53 * hash) + getFiledescriptor();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ds.hdfs.HdfsProto.BlockNumberRequest prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *message to get block numbers assigned to a file
+     * </pre>
+     *
+     * Protobuf type {@code hdfs.BlockNumberRequest}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:hdfs.BlockNumberRequest)
+        ds.hdfs.HdfsProto.BlockNumberRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberRequest_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberRequest_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ds.hdfs.HdfsProto.BlockNumberRequest.class, ds.hdfs.HdfsProto.BlockNumberRequest.Builder.class);
+      }
+
+      // Construct using ds.hdfs.HdfsProto.BlockNumberRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        filedescriptor_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberRequest_descriptor;
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberRequest getDefaultInstanceForType() {
+        return ds.hdfs.HdfsProto.BlockNumberRequest.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberRequest build() {
+        ds.hdfs.HdfsProto.BlockNumberRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberRequest buildPartial() {
+        ds.hdfs.HdfsProto.BlockNumberRequest result = new ds.hdfs.HdfsProto.BlockNumberRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) != 0)) {
+          result.filedescriptor_ = filedescriptor_;
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ds.hdfs.HdfsProto.BlockNumberRequest) {
+          return mergeFrom((ds.hdfs.HdfsProto.BlockNumberRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ds.hdfs.HdfsProto.BlockNumberRequest other) {
+        if (other == ds.hdfs.HdfsProto.BlockNumberRequest.getDefaultInstance()) return this;
+        if (other.hasFiledescriptor()) {
+          setFiledescriptor(other.getFiledescriptor());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        if (!hasFiledescriptor()) {
+          return false;
+        }
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ds.hdfs.HdfsProto.BlockNumberRequest parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ds.hdfs.HdfsProto.BlockNumberRequest) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private int filedescriptor_ ;
+      /**
+       * <code>required int32 filedescriptor = 1;</code>
+       * @return Whether the filedescriptor field is set.
+       */
+      public boolean hasFiledescriptor() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <code>required int32 filedescriptor = 1;</code>
+       * @return The filedescriptor.
+       */
+      public int getFiledescriptor() {
+        return filedescriptor_;
+      }
+      /**
+       * <code>required int32 filedescriptor = 1;</code>
+       * @param value The filedescriptor to set.
+       * @return This builder for chaining.
+       */
+      public Builder setFiledescriptor(int value) {
+        bitField0_ |= 0x00000001;
+        filedescriptor_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>required int32 filedescriptor = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearFiledescriptor() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        filedescriptor_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:hdfs.BlockNumberRequest)
+    }
+
+    // @@protoc_insertion_point(class_scope:hdfs.BlockNumberRequest)
+    private static final ds.hdfs.HdfsProto.BlockNumberRequest DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ds.hdfs.HdfsProto.BlockNumberRequest();
+    }
+
+    public static ds.hdfs.HdfsProto.BlockNumberRequest getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BlockNumberRequest>
+        PARSER = new com.google.protobuf.AbstractParser<BlockNumberRequest>() {
+      @java.lang.Override
+      public BlockNumberRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BlockNumberRequest(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BlockNumberRequest> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BlockNumberRequest> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ds.hdfs.HdfsProto.BlockNumberRequest getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface BlockNumberResponseOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:hdfs.BlockNumberResponse)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @return A list containing the blocknumbers.
+     */
+    java.util.List<java.lang.Integer> getBlocknumbersList();
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @return The count of blocknumbers.
+     */
+    int getBlocknumbersCount();
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @param index The index of the element to return.
+     * @return The blocknumbers at the given index.
+     */
+    int getBlocknumbers(int index);
+
+    /**
+     * <code>optional int32 status = 2;</code>
+     * @return Whether the status field is set.
+     */
+    boolean hasStatus();
+    /**
+     * <code>optional int32 status = 2;</code>
+     * @return The status.
+     */
+    int getStatus();
+  }
+  /**
+   * Protobuf type {@code hdfs.BlockNumberResponse}
+   */
+  public  static final class BlockNumberResponse extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:hdfs.BlockNumberResponse)
+      BlockNumberResponseOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use BlockNumberResponse.newBuilder() to construct.
+    private BlockNumberResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private BlockNumberResponse() {
+      blocknumbers_ = emptyIntList();
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new BlockNumberResponse();
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private BlockNumberResponse(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            case 8: {
+              if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+                blocknumbers_ = newIntList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              blocknumbers_.addInt(input.readInt32());
+              break;
+            }
+            case 10: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000001) != 0) && input.getBytesUntilLimit() > 0) {
+                blocknumbers_ = newIntList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                blocknumbers_.addInt(input.readInt32());
+              }
+              input.popLimit(limit);
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000001;
+              status_ = input.readInt32();
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) != 0)) {
+          blocknumbers_.makeImmutable(); // C
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberResponse_descriptor;
+    }
+
+    @java.lang.Override
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberResponse_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              ds.hdfs.HdfsProto.BlockNumberResponse.class, ds.hdfs.HdfsProto.BlockNumberResponse.Builder.class);
+    }
+
+    private int bitField0_;
+    public static final int BLOCKNUMBERS_FIELD_NUMBER = 1;
+    private com.google.protobuf.Internal.IntList blocknumbers_;
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @return A list containing the blocknumbers.
+     */
+    public java.util.List<java.lang.Integer>
+        getBlocknumbersList() {
+      return blocknumbers_;
+    }
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @return The count of blocknumbers.
+     */
+    public int getBlocknumbersCount() {
+      return blocknumbers_.size();
+    }
+    /**
+     * <code>repeated int32 blocknumbers = 1;</code>
+     * @param index The index of the element to return.
+     * @return The blocknumbers at the given index.
+     */
+    public int getBlocknumbers(int index) {
+      return blocknumbers_.getInt(index);
+    }
+
+    public static final int STATUS_FIELD_NUMBER = 2;
+    private int status_;
+    /**
+     * <code>optional int32 status = 2;</code>
+     * @return Whether the status field is set.
+     */
+    public boolean hasStatus() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>optional int32 status = 2;</code>
+     * @return The status.
+     */
+    public int getStatus() {
+      return status_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    @java.lang.Override
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    @java.lang.Override
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < blocknumbers_.size(); i++) {
+        output.writeInt32(1, blocknumbers_.getInt(i));
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        output.writeInt32(2, status_);
+      }
+      unknownFields.writeTo(output);
+    }
+
+    @java.lang.Override
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < blocknumbers_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(blocknumbers_.getInt(i));
+        }
+        size += dataSize;
+        size += 1 * getBlocknumbersList().size();
+      }
+      if (((bitField0_ & 0x00000001) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, status_);
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof ds.hdfs.HdfsProto.BlockNumberResponse)) {
+        return super.equals(obj);
+      }
+      ds.hdfs.HdfsProto.BlockNumberResponse other = (ds.hdfs.HdfsProto.BlockNumberResponse) obj;
+
+      if (!getBlocknumbersList()
+          .equals(other.getBlocknumbersList())) return false;
+      if (hasStatus() != other.hasStatus()) return false;
+      if (hasStatus()) {
+        if (getStatus()
+            != other.getStatus()) return false;
+      }
+      if (!unknownFields.equals(other.unknownFields)) return false;
+      return true;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getBlocknumbersCount() > 0) {
+        hash = (37 * hash) + BLOCKNUMBERS_FIELD_NUMBER;
+        hash = (53 * hash) + getBlocknumbersList().hashCode();
+      }
+      if (hasStatus()) {
+        hash = (37 * hash) + STATUS_FIELD_NUMBER;
+        hash = (53 * hash) + getStatus();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static ds.hdfs.HdfsProto.BlockNumberResponse parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    @java.lang.Override
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(ds.hdfs.HdfsProto.BlockNumberResponse prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    @java.lang.Override
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code hdfs.BlockNumberResponse}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:hdfs.BlockNumberResponse)
+        ds.hdfs.HdfsProto.BlockNumberResponseOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberResponse_descriptor;
+      }
+
+      @java.lang.Override
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberResponse_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                ds.hdfs.HdfsProto.BlockNumberResponse.class, ds.hdfs.HdfsProto.BlockNumberResponse.Builder.class);
+      }
+
+      // Construct using ds.hdfs.HdfsProto.BlockNumberResponse.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      @java.lang.Override
+      public Builder clear() {
+        super.clear();
+        blocknumbers_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        status_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      @java.lang.Override
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return ds.hdfs.HdfsProto.internal_static_hdfs_BlockNumberResponse_descriptor;
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberResponse getDefaultInstanceForType() {
+        return ds.hdfs.HdfsProto.BlockNumberResponse.getDefaultInstance();
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberResponse build() {
+        ds.hdfs.HdfsProto.BlockNumberResponse result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      @java.lang.Override
+      public ds.hdfs.HdfsProto.BlockNumberResponse buildPartial() {
+        ds.hdfs.HdfsProto.BlockNumberResponse result = new ds.hdfs.HdfsProto.BlockNumberResponse(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((bitField0_ & 0x00000001) != 0)) {
+          blocknumbers_.makeImmutable();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.blocknumbers_ = blocknumbers_;
+        if (((from_bitField0_ & 0x00000002) != 0)) {
+          result.status_ = status_;
+          to_bitField0_ |= 0x00000001;
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+
+      @java.lang.Override
+      public Builder clone() {
+        return super.clone();
+      }
+      @java.lang.Override
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.setField(field, value);
+      }
+      @java.lang.Override
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return super.clearField(field);
+      }
+      @java.lang.Override
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return super.clearOneof(oneof);
+      }
+      @java.lang.Override
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return super.setRepeatedField(field, index, value);
+      }
+      @java.lang.Override
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return super.addRepeatedField(field, value);
+      }
+      @java.lang.Override
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof ds.hdfs.HdfsProto.BlockNumberResponse) {
+          return mergeFrom((ds.hdfs.HdfsProto.BlockNumberResponse)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(ds.hdfs.HdfsProto.BlockNumberResponse other) {
+        if (other == ds.hdfs.HdfsProto.BlockNumberResponse.getDefaultInstance()) return this;
+        if (!other.blocknumbers_.isEmpty()) {
+          if (blocknumbers_.isEmpty()) {
+            blocknumbers_ = other.blocknumbers_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureBlocknumbersIsMutable();
+            blocknumbers_.addAll(other.blocknumbers_);
+          }
+          onChanged();
+        }
+        if (other.hasStatus()) {
+          setStatus(other.getStatus());
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      @java.lang.Override
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      @java.lang.Override
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        ds.hdfs.HdfsProto.BlockNumberResponse parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (ds.hdfs.HdfsProto.BlockNumberResponse) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.Internal.IntList blocknumbers_ = emptyIntList();
+      private void ensureBlocknumbersIsMutable() {
+        if (!((bitField0_ & 0x00000001) != 0)) {
+          blocknumbers_ = mutableCopy(blocknumbers_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @return A list containing the blocknumbers.
+       */
+      public java.util.List<java.lang.Integer>
+          getBlocknumbersList() {
+        return ((bitField0_ & 0x00000001) != 0) ?
+                 java.util.Collections.unmodifiableList(blocknumbers_) : blocknumbers_;
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @return The count of blocknumbers.
+       */
+      public int getBlocknumbersCount() {
+        return blocknumbers_.size();
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @param index The index of the element to return.
+       * @return The blocknumbers at the given index.
+       */
+      public int getBlocknumbers(int index) {
+        return blocknumbers_.getInt(index);
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @param index The index to set the value at.
+       * @param value The blocknumbers to set.
+       * @return This builder for chaining.
+       */
+      public Builder setBlocknumbers(
+          int index, int value) {
+        ensureBlocknumbersIsMutable();
+        blocknumbers_.setInt(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @param value The blocknumbers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addBlocknumbers(int value) {
+        ensureBlocknumbersIsMutable();
+        blocknumbers_.addInt(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @param values The blocknumbers to add.
+       * @return This builder for chaining.
+       */
+      public Builder addAllBlocknumbers(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureBlocknumbersIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, blocknumbers_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 blocknumbers = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearBlocknumbers() {
+        blocknumbers_ = emptyIntList();
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+
+      private int status_ ;
+      /**
+       * <code>optional int32 status = 2;</code>
+       * @return Whether the status field is set.
+       */
+      public boolean hasStatus() {
+        return ((bitField0_ & 0x00000002) != 0);
+      }
+      /**
+       * <code>optional int32 status = 2;</code>
+       * @return The status.
+       */
+      public int getStatus() {
+        return status_;
+      }
+      /**
+       * <code>optional int32 status = 2;</code>
+       * @param value The status to set.
+       * @return This builder for chaining.
+       */
+      public Builder setStatus(int value) {
+        bitField0_ |= 0x00000002;
+        status_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int32 status = 2;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearStatus() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        status_ = 0;
+        onChanged();
+        return this;
+      }
+      @java.lang.Override
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      @java.lang.Override
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:hdfs.BlockNumberResponse)
+    }
+
+    // @@protoc_insertion_point(class_scope:hdfs.BlockNumberResponse)
+    private static final ds.hdfs.HdfsProto.BlockNumberResponse DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new ds.hdfs.HdfsProto.BlockNumberResponse();
+    }
+
+    public static ds.hdfs.HdfsProto.BlockNumberResponse getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<BlockNumberResponse>
+        PARSER = new com.google.protobuf.AbstractParser<BlockNumberResponse>() {
+      @java.lang.Override
+      public BlockNumberResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new BlockNumberResponse(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<BlockNumberResponse> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<BlockNumberResponse> getParserForType() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public ds.hdfs.HdfsProto.BlockNumberResponse getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface AssignBlockRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:hdfs.AssignBlockRequest)
       com.google.protobuf.MessageOrBuilder {
@@ -18330,6 +19565,16 @@ public final class HdfsProto {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_hdfs_CloseFileResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_hdfs_BlockNumberRequest_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_hdfs_BlockNumberRequest_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_hdfs_BlockNumberResponse_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_hdfs_BlockNumberResponse_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_hdfs_AssignBlockRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -18451,38 +19696,41 @@ public final class HdfsProto {
       "edescriptor\030\001 \002(\005:\0010\022$\n\010datanode\030\002 \001(\0132\022" +
       ".hdfs.DataNodeInfo\"*\n\020CloseFileRequest\022\026" +
       "\n\016filedescriptor\030\001 \001(\005\"#\n\021CloseFileRespo" +
-      "nse\022\016\n\006status\030\001 \001(\005\",\n\022AssignBlockReques" +
-      "t\022\026\n\016filedescriptor\030\001 \001(\005\"`\n\023AssignBlock" +
-      "Response\022\023\n\013blocknumber\030\001 \001(\005\022$\n\010datanod" +
-      "e\030\002 \003(\0132\022.hdfs.DataNodeInfo\022\016\n\006status\030\003 " +
-      "\001(\005\"\036\n\017ListFileRequest\022\013\n\003dir\030\001 \001(\t\"4\n\020L" +
-      "istFileResponse\022\020\n\010filename\030\001 \003(\t\022\016\n\006sta" +
-      "tus\030\002 \001(\005\",\n\025BlockLocationsRequest\022\023\n\013bl" +
-      "ocknumber\030\001 \001(\005\"N\n\026BlockLocationsRespons" +
-      "e\022$\n\010datanode\030\001 \003(\0132\022.hdfs.DataNodeInfo\022" +
-      "\016\n\006status\030\002 \001(\005\"O\n\022BlockReportRequest\022\023\n" +
-      "\013blocknumber\030\001 \003(\005\022$\n\010datanode\030\002 \002(\0132\022.h" +
-      "dfs.DataNodeInfo\"%\n\023BlockReportResponse\022" +
-      "\016\n\006status\030\001 \001(\005\"8\n\020HeartBeatRequest\022$\n\010d" +
-      "atanode\030\001 \001(\0132\022.hdfs.DataNodeInfo\"#\n\021Hea" +
-      "rtBeatResponse\022\016\n\006status\030\001 \001(\005\"\254\001\n\022FileI" +
-      "nfoInNameNode\022\020\n\010filename\030\001 \002(\t\022-\n\005block" +
-      "\030\002 \003(\0132\036.hdfs.FileInfoInNameNode.Block\022\021" +
-      "\n\twritemode\030\003 \001(\010\032B\n\005Block\022\023\n\013blocknumbe" +
-      "r\030\001 \002(\005\022$\n\010datanode\030\002 \003(\0132\022.hdfs.DataNod" +
-      "eInfo\"<\n\022FileListInNameNode\022&\n\004file\030\001 \003(" +
-      "\0132\030.hdfs.FileInfoInNameNode\"9\n\017DNBlocksi" +
-      "nLocal\022\023\n\013blocknumber\030\001 \002(\005\022\021\n\tlocalpath" +
-      "\030\002 \003(\t\"0\n\tReadBlock\022\023\n\013blocknumber\030\001 \002(\005" +
-      "\022\016\n\006status\030\002 \001(\005\"1\n\021ReadBlockResponse\022\014\n" +
-      "\004data\030\001 \002(\014\022\016\n\006status\030\002 \001(\005\"/\n\nWriteBloc" +
-      "k\022\023\n\013blocknumber\030\001 \002(\005\022\014\n\004data\030\002 \002(\014\"$\n\022" +
-      "WriteBlockResponse\022\016\n\006status\030\001 \001(\005\"K\n\016DN" +
-      "ReportBlocks\022$\n\010datanode\030\001 \001(\0132\022.hdfs.Da" +
-      "taNodeInfo\022\023\n\013blocknumber\030\002 \003(\005\"C\n\014DataN" +
-      "odeInfo\022\022\n\nservername\030\001 \001(\t\022\016\n\006ipaddr\030\002 " +
-      "\001(\t\022\017\n\007portnum\030\003 \001(\005\"\036\n\013ChunkRecord\022\017\n\007r" +
-      "ecords\030\001 \003(\005B\024\n\007ds.hdfsB\tHdfsProto"
+      "nse\022\016\n\006status\030\001 \001(\005\",\n\022BlockNumberReques" +
+      "t\022\026\n\016filedescriptor\030\001 \002(\005\";\n\023BlockNumber" +
+      "Response\022\024\n\014blocknumbers\030\001 \003(\005\022\016\n\006status" +
+      "\030\002 \001(\005\",\n\022AssignBlockRequest\022\026\n\016filedesc" +
+      "riptor\030\001 \001(\005\"`\n\023AssignBlockResponse\022\023\n\013b" +
+      "locknumber\030\001 \001(\005\022$\n\010datanode\030\002 \003(\0132\022.hdf" +
+      "s.DataNodeInfo\022\016\n\006status\030\003 \001(\005\"\036\n\017ListFi" +
+      "leRequest\022\013\n\003dir\030\001 \001(\t\"4\n\020ListFileRespon" +
+      "se\022\020\n\010filename\030\001 \003(\t\022\016\n\006status\030\002 \001(\005\",\n\025" +
+      "BlockLocationsRequest\022\023\n\013blocknumber\030\001 \001" +
+      "(\005\"N\n\026BlockLocationsResponse\022$\n\010datanode" +
+      "\030\001 \003(\0132\022.hdfs.DataNodeInfo\022\016\n\006status\030\002 \001" +
+      "(\005\"O\n\022BlockReportRequest\022\023\n\013blocknumber\030" +
+      "\001 \003(\005\022$\n\010datanode\030\002 \002(\0132\022.hdfs.DataNodeI" +
+      "nfo\"%\n\023BlockReportResponse\022\016\n\006status\030\001 \001" +
+      "(\005\"8\n\020HeartBeatRequest\022$\n\010datanode\030\001 \001(\013" +
+      "2\022.hdfs.DataNodeInfo\"#\n\021HeartBeatRespons" +
+      "e\022\016\n\006status\030\001 \001(\005\"\254\001\n\022FileInfoInNameNode" +
+      "\022\020\n\010filename\030\001 \002(\t\022-\n\005block\030\002 \003(\0132\036.hdfs" +
+      ".FileInfoInNameNode.Block\022\021\n\twritemode\030\003" +
+      " \001(\010\032B\n\005Block\022\023\n\013blocknumber\030\001 \002(\005\022$\n\010da" +
+      "tanode\030\002 \003(\0132\022.hdfs.DataNodeInfo\"<\n\022File" +
+      "ListInNameNode\022&\n\004file\030\001 \003(\0132\030.hdfs.File" +
+      "InfoInNameNode\"9\n\017DNBlocksinLocal\022\023\n\013blo" +
+      "cknumber\030\001 \002(\005\022\021\n\tlocalpath\030\002 \003(\t\"0\n\tRea" +
+      "dBlock\022\023\n\013blocknumber\030\001 \002(\005\022\016\n\006status\030\002 " +
+      "\001(\005\"1\n\021ReadBlockResponse\022\014\n\004data\030\001 \002(\014\022\016" +
+      "\n\006status\030\002 \001(\005\"/\n\nWriteBlock\022\023\n\013blocknum" +
+      "ber\030\001 \002(\005\022\014\n\004data\030\002 \002(\014\"$\n\022WriteBlockRes" +
+      "ponse\022\016\n\006status\030\001 \001(\005\"K\n\016DNReportBlocks\022" +
+      "$\n\010datanode\030\001 \001(\0132\022.hdfs.DataNodeInfo\022\023\n" +
+      "\013blocknumber\030\002 \003(\005\"C\n\014DataNodeInfo\022\022\n\nse" +
+      "rvername\030\001 \001(\t\022\016\n\006ipaddr\030\002 \001(\t\022\017\n\007portnu" +
+      "m\030\003 \001(\005\"\036\n\013ChunkRecord\022\017\n\007records\030\001 \003(\005B" +
+      "\024\n\007ds.hdfsB\tHdfsProto"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -18512,68 +19760,80 @@ public final class HdfsProto {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_CloseFileResponse_descriptor,
         new java.lang.String[] { "Status", });
-    internal_static_hdfs_AssignBlockRequest_descriptor =
+    internal_static_hdfs_BlockNumberRequest_descriptor =
       getDescriptor().getMessageTypes().get(4);
+    internal_static_hdfs_BlockNumberRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_hdfs_BlockNumberRequest_descriptor,
+        new java.lang.String[] { "Filedescriptor", });
+    internal_static_hdfs_BlockNumberResponse_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_hdfs_BlockNumberResponse_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_hdfs_BlockNumberResponse_descriptor,
+        new java.lang.String[] { "Blocknumbers", "Status", });
+    internal_static_hdfs_AssignBlockRequest_descriptor =
+      getDescriptor().getMessageTypes().get(6);
     internal_static_hdfs_AssignBlockRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_AssignBlockRequest_descriptor,
         new java.lang.String[] { "Filedescriptor", });
     internal_static_hdfs_AssignBlockResponse_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(7);
     internal_static_hdfs_AssignBlockResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_AssignBlockResponse_descriptor,
         new java.lang.String[] { "Blocknumber", "Datanode", "Status", });
     internal_static_hdfs_ListFileRequest_descriptor =
-      getDescriptor().getMessageTypes().get(6);
+      getDescriptor().getMessageTypes().get(8);
     internal_static_hdfs_ListFileRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_ListFileRequest_descriptor,
         new java.lang.String[] { "Dir", });
     internal_static_hdfs_ListFileResponse_descriptor =
-      getDescriptor().getMessageTypes().get(7);
+      getDescriptor().getMessageTypes().get(9);
     internal_static_hdfs_ListFileResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_ListFileResponse_descriptor,
         new java.lang.String[] { "Filename", "Status", });
     internal_static_hdfs_BlockLocationsRequest_descriptor =
-      getDescriptor().getMessageTypes().get(8);
+      getDescriptor().getMessageTypes().get(10);
     internal_static_hdfs_BlockLocationsRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_BlockLocationsRequest_descriptor,
         new java.lang.String[] { "Blocknumber", });
     internal_static_hdfs_BlockLocationsResponse_descriptor =
-      getDescriptor().getMessageTypes().get(9);
+      getDescriptor().getMessageTypes().get(11);
     internal_static_hdfs_BlockLocationsResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_BlockLocationsResponse_descriptor,
         new java.lang.String[] { "Datanode", "Status", });
     internal_static_hdfs_BlockReportRequest_descriptor =
-      getDescriptor().getMessageTypes().get(10);
+      getDescriptor().getMessageTypes().get(12);
     internal_static_hdfs_BlockReportRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_BlockReportRequest_descriptor,
         new java.lang.String[] { "Blocknumber", "Datanode", });
     internal_static_hdfs_BlockReportResponse_descriptor =
-      getDescriptor().getMessageTypes().get(11);
+      getDescriptor().getMessageTypes().get(13);
     internal_static_hdfs_BlockReportResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_BlockReportResponse_descriptor,
         new java.lang.String[] { "Status", });
     internal_static_hdfs_HeartBeatRequest_descriptor =
-      getDescriptor().getMessageTypes().get(12);
+      getDescriptor().getMessageTypes().get(14);
     internal_static_hdfs_HeartBeatRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_HeartBeatRequest_descriptor,
         new java.lang.String[] { "Datanode", });
     internal_static_hdfs_HeartBeatResponse_descriptor =
-      getDescriptor().getMessageTypes().get(13);
+      getDescriptor().getMessageTypes().get(15);
     internal_static_hdfs_HeartBeatResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_HeartBeatResponse_descriptor,
         new java.lang.String[] { "Status", });
     internal_static_hdfs_FileInfoInNameNode_descriptor =
-      getDescriptor().getMessageTypes().get(14);
+      getDescriptor().getMessageTypes().get(16);
     internal_static_hdfs_FileInfoInNameNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_FileInfoInNameNode_descriptor,
@@ -18585,55 +19845,55 @@ public final class HdfsProto {
         internal_static_hdfs_FileInfoInNameNode_Block_descriptor,
         new java.lang.String[] { "Blocknumber", "Datanode", });
     internal_static_hdfs_FileListInNameNode_descriptor =
-      getDescriptor().getMessageTypes().get(15);
+      getDescriptor().getMessageTypes().get(17);
     internal_static_hdfs_FileListInNameNode_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_FileListInNameNode_descriptor,
         new java.lang.String[] { "File", });
     internal_static_hdfs_DNBlocksinLocal_descriptor =
-      getDescriptor().getMessageTypes().get(16);
+      getDescriptor().getMessageTypes().get(18);
     internal_static_hdfs_DNBlocksinLocal_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_DNBlocksinLocal_descriptor,
         new java.lang.String[] { "Blocknumber", "Localpath", });
     internal_static_hdfs_ReadBlock_descriptor =
-      getDescriptor().getMessageTypes().get(17);
+      getDescriptor().getMessageTypes().get(19);
     internal_static_hdfs_ReadBlock_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_ReadBlock_descriptor,
         new java.lang.String[] { "Blocknumber", "Status", });
     internal_static_hdfs_ReadBlockResponse_descriptor =
-      getDescriptor().getMessageTypes().get(18);
+      getDescriptor().getMessageTypes().get(20);
     internal_static_hdfs_ReadBlockResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_ReadBlockResponse_descriptor,
         new java.lang.String[] { "Data", "Status", });
     internal_static_hdfs_WriteBlock_descriptor =
-      getDescriptor().getMessageTypes().get(19);
+      getDescriptor().getMessageTypes().get(21);
     internal_static_hdfs_WriteBlock_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_WriteBlock_descriptor,
         new java.lang.String[] { "Blocknumber", "Data", });
     internal_static_hdfs_WriteBlockResponse_descriptor =
-      getDescriptor().getMessageTypes().get(20);
+      getDescriptor().getMessageTypes().get(22);
     internal_static_hdfs_WriteBlockResponse_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_WriteBlockResponse_descriptor,
         new java.lang.String[] { "Status", });
     internal_static_hdfs_DNReportBlocks_descriptor =
-      getDescriptor().getMessageTypes().get(21);
+      getDescriptor().getMessageTypes().get(23);
     internal_static_hdfs_DNReportBlocks_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_DNReportBlocks_descriptor,
         new java.lang.String[] { "Datanode", "Blocknumber", });
     internal_static_hdfs_DataNodeInfo_descriptor =
-      getDescriptor().getMessageTypes().get(22);
+      getDescriptor().getMessageTypes().get(24);
     internal_static_hdfs_DataNodeInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_DataNodeInfo_descriptor,
         new java.lang.String[] { "Servername", "Ipaddr", "Portnum", });
     internal_static_hdfs_ChunkRecord_descriptor =
-      getDescriptor().getMessageTypes().get(23);
+      getDescriptor().getMessageTypes().get(25);
     internal_static_hdfs_ChunkRecord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_hdfs_ChunkRecord_descriptor,

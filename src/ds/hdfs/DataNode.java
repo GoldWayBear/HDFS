@@ -40,7 +40,6 @@ public class DataNode implements IDataNode
     private String ChunksRecord = "ChunksRecord";
     //List of all blocks stored on the machine
     private List<Integer> StoredChunks;
-    private int blocksize;
     //Read Write Lock for the arraylist of stored chunks in memory
     private ReentrantReadWriteLock rrwl;
     //Lock for the file containing stored chunks in persistent storage (Only used for writes)
@@ -232,7 +231,6 @@ public class DataNode implements IDataNode
         Me.MyName = config.get(0).split(":")[1];
         Me.MyIP = config.get(1).split(":")[1];
         Me.MyPort = Integer.parseInt(config.get(2).split(":")[1]);
-        Me.blocksize = Integer.parseInt(config.get(3).split(":")[1]);
         //Collect the configuration for the NameNode
         in = new BufferedReader(new FileReader(NN_ConfigFile));
         line = null;
