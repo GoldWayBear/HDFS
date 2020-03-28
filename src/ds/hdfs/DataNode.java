@@ -34,32 +34,36 @@ public class DataNode implements IDataNode
     protected String MyIP;
     protected int MyPort;
     protected String MyName;
+    protected int heartbeattime;
 
 
     //Disk Saved version of StoredChunks
     private String ChunksRecord = "ChunksRecord";
     //List of all blocks stored on the machine
-    private List<Integer> StoredChunks;
+    private List<BlockReportRequest.Block> StoredChunks;
     //Read Write Lock for the arraylist of stored chunks in memory
     private ReentrantReadWriteLock rrwl;
     //Lock for the file containing stored chunks in persistent storage (Only used for writes)
     private ReentrantReadWriteLock filelock;
 
-    private static String NN_ConfigFile = "nn_config.txt";
-    private static String DN_ConfigFile = "dn_config.txt";
+    private static String NN_ConfigFile = "./src/nn_config.txt";
+    private static String DN_ConfigFile = "./src/dn_config.txt";
 
     public DataNode()
     {
         try {
             File chunkrecords = new File(ChunksRecord);
-            StoredChunks = new ArrayList<Integer>();
+            StoredChunks = new ArrayList<BlockReportRequest.Block>();
             rrwl = new ReentrantReadWriteLock(true);
             filelock = new ReentrantReadWriteLock(true);
             //Check if there are already blocks saved on this machine
             if (chunkrecords.isFile() && chunkrecords.canRead()) {
                 byte[] blockbytes = Files.readAllBytes(Paths.get(ChunksRecord));
+                if(blockbytes.length == 0){
+                    return;
+                }
                 BlockReportRequest blocks = BlockReportRequest.parseFrom(blockbytes);
-                StoredChunks.addAll(blocks.getBlocknumberList());
+                StoredChunks.addAll(blocks.getBlockList());
                 BlockReport();
             }
             else {
@@ -78,12 +82,12 @@ public class DataNode implements IDataNode
     public byte[] readBlock(byte[] Inp)
     {
         //Set up response and request objects
-        ReadBlock request = null;
+        ReadBlockRequest request = null;
         ReadBlockResponse.Builder response = ReadBlockResponse.newBuilder();
         try
         {
             //Parse request and retrieve block number
-            request = ReadBlock.parseFrom(Inp);
+            request = ReadBlockRequest.parseFrom(Inp);
             int blocknum = request.getBlocknumber();
             //Retrieve data and convert to bytestring to package in response object
             byte[] block = Files.readAllBytes(Paths.get("/blocks/"+blocknum));
@@ -102,12 +106,12 @@ public class DataNode implements IDataNode
     public byte[] writeBlock(byte[] Inp)
     {
         //Set up response and request objects
-        WriteBlock request = null;
+        WriteBlockRequest request = null;
         WriteBlockResponse.Builder response = WriteBlockResponse.newBuilder();
         try
         {
             //Parse request and retrieve block number and data
-            request = WriteBlock.parseFrom(Inp);
+            request = WriteBlockRequest.parseFrom(Inp);
             int blocknum = request.getBlocknumber();
             byte[] block = request.getData().toByteArray();
             File out = new File("/blocks/"+blocknum);
@@ -116,7 +120,9 @@ public class DataNode implements IDataNode
             os.close();
             //Acquire lock and Add Block Number to list of blocks currently stored on this node
             rrwl.writeLock().lock();
-            StoredChunks.add(blocknum);
+            BlockReportRequest.Block.Builder newblock = BlockReportRequest.Block.newBuilder();
+            newblock.setBlocknumber(blocknum);
+            StoredChunks.add(newblock.build());
             response.setStatus(1);
 
         }
@@ -141,7 +147,7 @@ public class DataNode implements IDataNode
             BlockReportRequest.Builder request = BlockReportRequest.newBuilder();
             //Acquire lock to add chunkslist to NameNode message
             rrwl.readLock().lock();
-            request.addAllBlocknumber(StoredChunks);
+            request.addAllBlock(StoredChunks);
             rrwl.readLock().unlock();
             try {
                 //Write message to file and send out to NameNode
@@ -231,6 +237,7 @@ public class DataNode implements IDataNode
         Me.MyName = config.get(0).split(":")[1];
         Me.MyIP = config.get(1).split(":")[1];
         Me.MyPort = Integer.parseInt(config.get(2).split(":")[1]);
+        Me.heartbeattime = Integer.parseInt(config.get(3).split(":")[1]);
         //Collect the configuration for the NameNode
         in = new BufferedReader(new FileReader(NN_ConfigFile));
         line = null;
@@ -252,7 +259,7 @@ public class DataNode implements IDataNode
                 while(true) {
                     Me.heartbeat();
                     //Sleep 5 seconds before sending heartbeat again
-                    try{ Thread.sleep(5000);}
+                    try{ Thread.sleep(Me.heartbeattime);}
                     catch(Exception e){e.printStackTrace();}
                 }
             }
@@ -263,7 +270,7 @@ public class DataNode implements IDataNode
                 while(true) {
                     Me.BlockReport();
                     //Sleep 5 seconds before sending BlockReport again
-                    try{ Thread.sleep(5000);}
+                    try{ Thread.sleep(Me.heartbeattime);}
                     catch(Exception e){e.printStackTrace();}
                 }
             }
