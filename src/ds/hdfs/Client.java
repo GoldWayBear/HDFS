@@ -18,7 +18,7 @@ public class Client
     public INameNode NNStub; //Name Node stub
     public IDataNode DNStub; //Data Node stub
 
-    private static String NN_ConfigFile = "nn_config.txt";
+    private static String NN_ConfigFile = "./src/nn_config.txt";
     private int block_size; //size of block
 
     public Client()
@@ -83,7 +83,7 @@ public class Client
                 //For each DataNode in the response message write the block
                 for(DataNodeInfo dn: resp.getDatanodeList()){
                     DNStub = GetDNStub(dn.getServername(),dn.getIpaddr(),dn.getPortnum());
-                    WriteBlock.Builder writerequest = WriteBlock.newBuilder();
+                    WriteBlockRequest.Builder writerequest = WriteBlockRequest.newBuilder();
                     WriteBlockResponse writerresponse = null;
                     writerequest.setBlocknumber(blocknum);
                     writerequest.setData(ByteString.copyFrom(block));
@@ -116,16 +116,11 @@ public class Client
             OpenFileRequest.Builder request = OpenFileRequest.newBuilder();
             request.setFilename(FileName);
             request.setFlag(OpenFileRequest.Flag.O_RDONLY);
-            //Send OpenFile Request and get FileDescriptor
+            //Send OpenFile Request and get FileDescriptor and block numbers
             byte[] output = NNStub.openFile(request.build().toByteArray());
             OpenFileResponse response = OpenFileResponse.parseFrom(output);
             int fd = response.getFiledescriptor();
-            //Send BlockNumber Request and get the blocks for the file
-            BlockNumberRequest.Builder blockrequest = BlockNumberRequest.newBuilder();
-            blockrequest.setFiledescriptor(fd);
-            output = NNStub.getBlockNumbers(blockrequest.build().toByteArray());
-            BlockNumberResponse blockresponse = BlockNumberResponse.parseFrom(output);
-            List<Integer> blocks = blockresponse.getBlocknumbersList();
+            List<Integer> blocks = response.getBlocknumberList();
             //Open the local file
             File out = new File(FileName);
             OutputStream os = new FileOutputStream(out);
@@ -142,7 +137,7 @@ public class Client
                         //Get the data for the block from the DataNode
                         DataNodeInfo dn = locationresponse.getDatanode(i);
                         DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
-                        ReadBlock.Builder readrequest = ReadBlock.newBuilder();
+                        ReadBlockRequest.Builder readrequest = ReadBlockRequest.newBuilder();
                         readrequest.setBlocknumber(block);
                         output = DNStub.readBlock(readrequest.build().toByteArray());
                         ReadBlockResponse readresponse = ReadBlockResponse.parseFrom(output);
