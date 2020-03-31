@@ -1,4 +1,4 @@
-servername:NN
+servername:HDFSDataNode1
 IP:127.0.0.1
 Port:2004
-BLOCKSIZE(Byte):64
+HEARTBEATTIME(ms):1500

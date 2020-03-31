@@ -67,11 +67,8 @@ message BlockLocationsResponse{
 
 //message to report blocks in Data Node
 message BlockReportRequest{
-  message Block{
-    optional int32 blocknumber = 1;
-    optional DataNodeInfo datanode = 2;
-  }
-  repeated Block block = 1;
+  repeated int32 blocks = 1;
+  required DataNodeInfo datanode = 2;
 }
 message BlockReportResponse{
   optional int32 status = 1[default = -1];

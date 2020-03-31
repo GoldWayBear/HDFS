@@ -14,8 +14,10 @@ message OpenFileRequest{
   optional Flag flag = 2 [default = O_RDONLY];
 }
 message OpenFileResponse{
-  required int32  filedescriptor = 1[default = 0];//On error, -1 is returned
-  optional DataNodeInfo datanode = 2;
+  //On error, -1 is returned
+  required int32  filedescriptor = 1[default = -1];
+  //If File is for reading, return all blocknumbers
+  repeated int32  blocknumber = 2;
 }
 
 //message to close a file with a open filedescriptor
@@ -24,7 +26,7 @@ message CloseFileRequest{
   optional int32  filedescriptor = 1;
 }
 message CloseFileResponse{
-  optional int32  status = 1;
+  optional int32  status = 1[default = -1];
 }
 
 //message to assign a block number to Data Node ips.
@@ -41,7 +43,7 @@ message AssignBlockResponse{
   }
   */
   repeated DataNodeInfo datanode = 2;
-  optional int32 status = 3;
+  optional int32 status = 3[default = -1];
 }
 
 //message to list all files
@@ -51,7 +53,7 @@ message ListFileRequest{
 }
 message ListFileResponse{
   repeated string filename = 1;
-  optional int32  status = 2;
+  optional int32  status = 2[default = -1];
 }
 
 //message for block locations
@@ -60,16 +62,16 @@ message BlockLocationsRequest{
 }
 message BlockLocationsResponse{
   repeated DataNodeInfo datanode = 1;
-  optional int32 status = 2;
+  optional int32 status = 2[default = -1];
 }
 
 //message to report blocks in Data Node
 message BlockReportRequest{
-    repeated int32 blocknumber = 1;
-    required DataNodeInfo datanode = 2;
+  repeated int32 blocks = 1;
+  required DataNodeInfo datanode = 2;
 }
 message BlockReportResponse{
-  optional int32 status = 1;
+  optional int32 status = 1[default = -1];
 }
 
 //message for HeartBeat
@@ -77,7 +79,7 @@ message HeartBeatRequest{
   optional DataNodeInfo datanode = 1;
 }
 message HeartBeatResponse{
-  optional int32 status = 1;
+  optional int32 status = 1[default = -1];
 }
 
 // message for NameNode to map a file to blocks distributed in different Data Nodes
@@ -106,45 +108,45 @@ message FileListInNameNode{
 }
 
 // message for DataNode to map the blocks to local location
-message DNBlocksinLocal{
-  required int32 blocknumber = 1;
-  repeated string localpath = 2;
+message BlocksInDataNode{
+  message Block{
+    required int32  blocknumber = 1;
+    optional string path = 2;
+  }
+  repeated Block block = 1;
 }
 
 //message to read data from a block
-message ReadBlock{
+message ReadBlockRequest{
   required int32 blocknumber = 1;
-  optional int32 status = 2;  //On error, negative number is returned.
 }
-
 message ReadBlockResponse{
-    required bytes data = 1;
-    optional int32 status = 2; //On error, negative number is returned.
+  optional bytes data = 1;
+  optional int32 status = 2[default = -1];  //On error, negative number is returned.
 }
 
 //message to write data to a block
-message WriteBlock{
+//In this project the replication factor is 2 for Replication Pipelining
+message WriteBlockRequest{
   required int32 blocknumber = 1;
-  required bytes data = 2;
+  optional bytes data = 2;
+  repeated DataNodeInfo replicatedDatanode = 3;
 }
-
 message WriteBlockResponse{
-    optional int32 status = 1;
+  optional int32 Status = 1[default = -1];
 }
 
+/*
 // Data Node Report the ip addr with blocks
 message DNReportBlocks {
     optional DataNodeInfo datanode = 1;
     repeated int32 blocknumber = 2;
 }
+*/
 
 //message for DataNode: id(server name), ip addr, port
 message DataNodeInfo{
   optional string servername = 1;
   optional string ipaddr = 2;
   optional int32  portnum = 3;
-}
-
-message ChunkRecord{
-    repeated int32 records = 1;
 }

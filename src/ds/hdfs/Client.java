@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.util.*;
 import java.io.*;
 import ds.hdfs.HdfsProto.*;
-import com.google.protobuf.ByteString; 
+import com.google.protobuf.ByteString;
 //import ds.hdfs.INameNode;
 
 public class Client
@@ -58,7 +58,7 @@ public class Client
 
     public void PutFile(String Filename) //Put File
     {
-        System.out.println("Going to put file" + Filename);
+        System.out.println("Going to put file " + Filename);
         BufferedInputStream bis;
         byte[] block = new byte[block_size];
         try{
@@ -82,6 +82,7 @@ public class Client
                 int blocknum  = resp.getBlocknumber();
                 //For each DataNode in the response message write the block
                 for(DataNodeInfo dn: resp.getDatanodeList()){
+                    if(dn.getServername().length() == 0){ continue;}
                     DNStub = GetDNStub(dn.getServername(),dn.getIpaddr(),dn.getPortnum());
                     WriteBlockRequest.Builder writerequest = WriteBlockRequest.newBuilder();
                     WriteBlockResponse writerresponse = null;
@@ -136,6 +137,7 @@ public class Client
                     try {
                         //Get the data for the block from the DataNode
                         DataNodeInfo dn = locationresponse.getDatanode(i);
+                        if(dn.getServername().length() == 0){ continue;}
                         DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
                         ReadBlockRequest.Builder readrequest = ReadBlockRequest.newBuilder();
                         readrequest.setBlocknumber(block);

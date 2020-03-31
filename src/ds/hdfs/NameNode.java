@@ -485,14 +485,12 @@ public class NameNode extends UnicastRemoteObject implements INameNode{
 		BlockReportResponse.Builder response = BlockReportResponse.newBuilder();
 		try{
 			request = BlockReportRequest.parseFrom(inp);
-
-			for(BlockReportRequest.Block block: request.getBlockList()) {
-				int block_num = block.getBlocknumber();
-				DataNodeInfo dnodeInfo = block.getDatanode();
-				String uid = dnodeInfo.getServername();
-				String ipaddr = dnodeInfo.getIpaddr();
-				int port = dnodeInfo.getPortnum();
-				DataNode dnode = new DataNode(ipaddr,port,uid);
+			DataNodeInfo dnodeInfo = request.getDatanode();
+			String uid = dnodeInfo.getServername();
+			String ipaddr = dnodeInfo.getIpaddr();
+			int port = dnodeInfo.getPortnum();
+			DataNode dnode = new DataNode(ipaddr,port,uid);
+			for(int block_num: request.getBlocksList()) {
 
 				System.out.println("A BlockReporting with block number(" + block_num +"): uid = " + uid+ " IP= "+ ipaddr+" port= " +port);
 
@@ -530,16 +528,15 @@ public class NameNode extends UnicastRemoteObject implements INameNode{
 					dnlst_this_block.add(dnode);
 					blockTable.put(block_num, dnlst_this_block);
 				}
-
-				if(containsUidInActiveDatanodeList(datanodeListActive, uid, true)) {
-					long tm_s = new Date().getTime();
-					DataNodeActive dnodeTS = new DataNodeActive(dnode, tm_s);
-					datanodeListActive.add(dnodeTS);
-				}else {
-					long tm_s = new Date().getTime();
-					DataNodeActive dnodeTS = new DataNodeActive(dnode, tm_s);
-					datanodeListActive.add(dnodeTS);
-				}
+			}
+			if(containsUidInActiveDatanodeList(datanodeListActive, uid, true)) {
+				long tm_s = new Date().getTime();
+				DataNodeActive dnodeTS = new DataNodeActive(dnode, tm_s);
+				datanodeListActive.add(dnodeTS);
+			}else {
+				long tm_s = new Date().getTime();
+				DataNodeActive dnodeTS = new DataNodeActive(dnode, tm_s);
+				datanodeListActive.add(dnodeTS);
 			}
 			response.setStatus(0);
 

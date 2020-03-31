@@ -27,7 +27,7 @@ import java.nio.charset.Charset;
 import ds.hdfs.IDataNode.*;
 import ds.hdfs.HdfsProto.*;
 
-public class DataNode implements IDataNode
+public class DataNode extends UnicastRemoteObject implements IDataNode
 {
 
     protected INameNode NNStub;
@@ -35,12 +35,13 @@ public class DataNode implements IDataNode
     protected int MyPort;
     protected String MyName;
     protected int heartbeattime;
+    protected  static String blockdir = "./bin/blocks/";
 
 
     //Disk Saved version of StoredChunks
-    private String ChunksRecord = "ChunksRecord";
+    private String ChunksRecord = "./bin/ChunksRecord";
     //List of all blocks stored on the machine
-    private List<BlockReportRequest.Block> StoredChunks;
+    private List<Integer> StoredChunks;
     //Read Write Lock for the arraylist of stored chunks in memory
     private ReentrantReadWriteLock rrwl;
     //Lock for the file containing stored chunks in persistent storage (Only used for writes)
@@ -49,11 +50,13 @@ public class DataNode implements IDataNode
     private static String NN_ConfigFile = "./src/nn_config.txt";
     private static String DN_ConfigFile = "./src/dn_config.txt";
 
-    public DataNode()
-    {
+    public DataNode() throws RemoteException {
+        super();
         try {
+            File directory = new File(blockdir);
+            if (! directory.exists()){ directory.mkdir();}
             File chunkrecords = new File(ChunksRecord);
-            StoredChunks = new ArrayList<BlockReportRequest.Block>();
+            StoredChunks = new ArrayList<Integer>();
             rrwl = new ReentrantReadWriteLock(true);
             filelock = new ReentrantReadWriteLock(true);
             //Check if there are already blocks saved on this machine
@@ -63,8 +66,7 @@ public class DataNode implements IDataNode
                     return;
                 }
                 BlockReportRequest blocks = BlockReportRequest.parseFrom(blockbytes);
-                StoredChunks.addAll(blocks.getBlockList());
-                BlockReport();
+                StoredChunks.addAll(blocks.getBlocksList());
             }
             else {
                 //First time DataNode is booting up on this machine, create blank ChunkFile
@@ -90,7 +92,7 @@ public class DataNode implements IDataNode
             request = ReadBlockRequest.parseFrom(Inp);
             int blocknum = request.getBlocknumber();
             //Retrieve data and convert to bytestring to package in response object
-            byte[] block = Files.readAllBytes(Paths.get("/blocks/"+blocknum));
+            byte[] block = Files.readAllBytes(Paths.get(blockdir+blocknum));
             response.setData(ByteString.copyFrom(block));
             response.setStatus(1);
         }
@@ -114,21 +116,23 @@ public class DataNode implements IDataNode
             request = WriteBlockRequest.parseFrom(Inp);
             int blocknum = request.getBlocknumber();
             byte[] block = request.getData().toByteArray();
-            File out = new File("/blocks/"+blocknum);
+            File out = new File(blockdir+blocknum);
+            if (!out.isFile()){
+                out.createNewFile();
+            }
             OutputStream os = new FileOutputStream(out);
             os.write(block);
             os.close();
             //Acquire lock and Add Block Number to list of blocks currently stored on this node
             rrwl.writeLock().lock();
-            BlockReportRequest.Block.Builder newblock = BlockReportRequest.Block.newBuilder();
-            newblock.setBlocknumber(blocknum);
-            StoredChunks.add(newblock.build());
+            StoredChunks.add(blocknum);
             response.setStatus(1);
 
         }
         catch(Exception e)
         {
-            System.out.println("Error at writeBlock ");
+            System.out.println("Error at writeBlock: ");
+            e.printStackTrace();
             response.setStatus(-1);
         }
         finally{
@@ -147,8 +151,13 @@ public class DataNode implements IDataNode
             BlockReportRequest.Builder request = BlockReportRequest.newBuilder();
             //Acquire lock to add chunkslist to NameNode message
             rrwl.readLock().lock();
-            request.addAllBlock(StoredChunks);
+            request.addAllBlocks(StoredChunks);
             rrwl.readLock().unlock();
+            DataNodeInfo.Builder dn = DataNodeInfo.newBuilder();
+            dn.setPortnum(MyPort);
+            dn.setIpaddr(MyIP);
+            dn.setServername(MyName);
+            request.setDatanode(dn.build());
             try {
                 //Write message to file and send out to NameNode
                 byte[] data = request.build().toByteArray();
@@ -174,7 +183,7 @@ public class DataNode implements IDataNode
     {
         try
         {
-            IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(this, 0);
+            IDataNode stub = (IDataNode) UnicastRemoteObject.exportObject(this, Port);
             System.setProperty("java.rmi.server.hostname", IP);
             Registry registry = LocateRegistry.getRegistry(Port);
             registry.rebind(Name, stub);
@@ -204,26 +213,26 @@ public class DataNode implements IDataNode
 
     private void heartbeat(){
         try {
-                int status = -1;
-                //Continiue sending Heartbeat until the NameNode returns acknowledgment(positive status code)
-                while(status < 0){
-                    HeartBeatRequest.Builder request = HeartBeatRequest.newBuilder();
-                    DataNodeInfo.Builder dn = DataNodeInfo.newBuilder();
-                    dn.setServername(MyName);
-                    dn.setIpaddr(MyIP);
-                    dn.setPortnum(MyPort);
-                    request.setDatanode(dn.build());
-                    byte[] out = NNStub.heartBeat(request.build().toByteArray());
-                    HeartBeatResponse response = HeartBeatResponse.parseFrom(out);
-                    status = response.getStatus();
-                }
+            int status = -1;
+            //Continiue sending Heartbeat until the NameNode returns acknowledgment(positive status code)
+            while(status < 0){
+                HeartBeatRequest.Builder request = HeartBeatRequest.newBuilder();
+                DataNodeInfo.Builder dn = DataNodeInfo.newBuilder();
+                dn.setServername(MyName);
+                dn.setIpaddr(MyIP);
+                dn.setPortnum(MyPort);
+                request.setDatanode(dn.build());
+                byte[] out = NNStub.heartBeat(request.build().toByteArray());
+                HeartBeatResponse response = HeartBeatResponse.parseFrom(out);
+                status = response.getStatus();
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String args[]) throws  IOException
+    public static void main(String args[]) throws  IOException, AlreadyBoundException
     {
         DataNode Me = new DataNode();
         //Collect configuration for this DataNode
@@ -251,7 +260,9 @@ public class DataNode implements IDataNode
         int port = Integer.parseInt(config.get(2).split(":")[1]);
         //Create NameNode Stub and Register server with RMI
         Me.NNStub = Me.GetNNStub(name,ip,port);
-        Me.BindServer(Me.MyName,Me.MyIP,Me.MyPort);
+        System.setProperty("java.rmi.server.hostname", Me.MyIP);
+        Registry registry = LocateRegistry.createRegistry(Me.MyPort);
+        registry.bind(Me.MyName, Me);
         //Spin off two threads that loop sending Block Reports and Heartbeats
         Executors.newSingleThreadExecutor().execute(new Runnable() {
             @Override
