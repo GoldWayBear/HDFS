@@ -317,12 +317,16 @@ public class NameNode extends UnicastRemoteObject implements INameNode{
 				dinfo.setPortnum(dnode.port);
 				response.addDatanode(dinfo);
 			}
+			if(response.getDatanodeCount() == 0){
+				throw new Exception("All DataNodes containing this file are down");
+			}
 			response.setStatus(0);
 
 		}catch(Exception e){
 			System.err.println("Error at getBlockLocations "+ e.toString());
 			e.printStackTrace();
 			response.setStatus(-1);
+			return response.build().toByteArray();
 		}
 		return response.build().toByteArray();
 	}
@@ -811,7 +815,9 @@ public class NameNode extends UnicastRemoteObject implements INameNode{
 									System.out.println("HeartBeat: List of active data nodes is empty, Name Node is waiting for connection.");
 							}
 							if(namenode.datanodeListActive != null){
-								for(DataNodeActive dnodeActive: namenode.datanodeListActive) {
+								DataNodeActive[] nodes = new DataNodeActive[namenode.datanodeListActive.size()];
+								nodes = namenode.datanodeListActive.toArray(nodes);
+								for(DataNodeActive dnodeActive: nodes) {
 	        				long lastActiveTime = dnodeActive.ts;
 	        				long nowHeartBeatTime = new Date().getTime();
 	        				long diff = nowHeartBeatTime - lastActiveTime;
