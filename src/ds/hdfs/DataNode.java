@@ -35,6 +35,7 @@ public class DataNode extends UnicastRemoteObject implements IDataNode
     protected int MyPort;
     protected String MyName;
     protected int heartbeattime;
+    //Storage directory for blocks
     protected  static String blockdir = "./bin/blocks/";
 
 
@@ -59,7 +60,7 @@ public class DataNode extends UnicastRemoteObject implements IDataNode
             StoredChunks = new ArrayList<Integer>();
             rrwl = new ReentrantReadWriteLock(true);
             filelock = new ReentrantReadWriteLock(true);
-            //Check if there are already blocks saved on this machine
+            //Check if there are already blocks saved on this machine and add them to state if so
             if (chunkrecords.isFile() && chunkrecords.canRead()) {
                 byte[] blockbytes = Files.readAllBytes(Paths.get(ChunksRecord));
                 if(blockbytes.length == 0){
@@ -269,7 +270,7 @@ public class DataNode extends UnicastRemoteObject implements IDataNode
             public void run() {
                 while(true) {
                     Me.heartbeat();
-                    //Sleep 5 seconds before sending heartbeat again
+                    //Sleep a heartbeat before sending again
                     try{ Thread.sleep(Me.heartbeattime);}
                     catch(Exception e){e.printStackTrace();}
                 }
@@ -280,7 +281,7 @@ public class DataNode extends UnicastRemoteObject implements IDataNode
             public void run() {
                 while(true) {
                     Me.BlockReport();
-                    //Sleep 5 seconds before sending BlockReport again
+                    //Sleep a heartbeat before sending BlockReport again
                     try{ Thread.sleep(Me.heartbeattime);}
                     catch(Exception e){e.printStackTrace();}
                 }

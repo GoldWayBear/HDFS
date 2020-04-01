@@ -310,7 +310,11 @@ public class NameNode extends UnicastRemoteObject implements INameNode{
 			request = BlockLocationsRequest.parseFrom(inp);
 			int blocknumber = request.getBlocknumber();
 			ArrayList<DataNode> dnode_in_block = blockTable.get(blocknumber);
+			ArrayList<DataNodeActive> nodes = (ArrayList<DataNodeActive>)((ArrayList<DataNodeActive>) datanodeListActive).clone();
 			for(DataNode dnode:dnode_in_block) {
+				if(!containsUidInActiveDatanodeList(nodes,dnode.serverName,false)){
+					continue;
+				}
 				DataNodeInfo.Builder dinfo = DataNodeInfo.newBuilder();
 				dinfo.setServername(dnode.serverName);
 				dinfo.setIpaddr(dnode.ip);

@@ -20,6 +20,7 @@ public class Client
 
     private static String NN_ConfigFile = "./src/nn_config.txt";
     private int block_size; //size of block
+    private int heartbeat;
 
     public Client()
     {
@@ -27,8 +28,9 @@ public class Client
         //nn_details contain NN details in the format Server;IP;Port
     }
 
-    public IDataNode GetDNStub(String Name, String IP, int Port)
-    {
+    public IDataNode GetDNStub(String Name, String IP, int Port) throws Exception {
+        //get time at start
+        long time = System.currentTimeMillis();
         while(true)
         {
             try{
@@ -36,6 +38,12 @@ public class Client
                 IDataNode stub = (IDataNode) registry.lookup(Name);
                 return stub;
             }catch(Exception e){
+                //If DataNode has not connected in the duration of one heartbeat,
+                // it is possible the node went down right when we requested its info
+                //So the namenode has not yet removed it from use. This will time us out from connecting to it
+                if ((System.currentTimeMillis() - time) >= heartbeat){
+                    throw new Exception("Connection timed out");
+                }
                 continue;
             }
         }
@@ -83,7 +91,14 @@ public class Client
                 //For each DataNode in the response message write the block
                 for(DataNodeInfo dn: resp.getDatanodeList()){
                     if(dn.getServername().length() == 0){ continue;}
-                    DNStub = GetDNStub(dn.getServername(),dn.getIpaddr(),dn.getPortnum());
+                    //Get DN, if connection times out alert user and continue to next node
+                    try {
+                        DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
+                    }
+                    catch(Exception e){
+                        System.out.println("Unable to reach DataNode " +dn.getServername() + ". Moving to next one");
+                        continue;
+                    }
                     WriteBlockRequest.Builder writerequest = WriteBlockRequest.newBuilder();
                     WriteBlockResponse writerresponse = null;
                     writerequest.setBlocknumber(blocknum);
@@ -132,13 +147,29 @@ public class Client
                 locationrequest.setBlocknumber(block);
                 output = NNStub.getBlockLocations(locationrequest.build().toByteArray());
                 BlockLocationsResponse locationresponse = BlockLocationsResponse.parseFrom(output);
+                if(locationresponse.getDatanodeCount() == 0){
+                    System.out.println("Error: All DataNodes containing a portion of this file are down");
+                    break;
+                }
                 //Loop throught the datanodes
                 for(int i = 0; i < locationresponse.getDatanodeCount(); i++){
                     try {
                         //Get the data for the block from the DataNode
                         DataNodeInfo dn = locationresponse.getDatanode(i);
                         if(dn.getServername().length() == 0){ continue;}
-                        DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
+                        //Get DN, if connection times out alert user and continue to next node
+                        try {
+                            DNStub = GetDNStub(dn.getServername(), dn.getIpaddr(), dn.getPortnum());
+                        }
+                        catch(Exception e){
+                            //If gone through all datanodes, throw an exception
+                            if(i == (locationresponse.getDatanodeCount() - 1)){
+                                System.out.println("Error: All DataNodes for this file are down");
+                                throw new Exception();
+                            }
+                            continue;
+                        }
+                        //Create the request and read the block from the datanode
                         ReadBlockRequest.Builder readrequest = ReadBlockRequest.newBuilder();
                         readrequest.setBlocknumber(block);
                         output = DNStub.readBlock(readrequest.build().toByteArray());
@@ -151,9 +182,10 @@ public class Client
                     }
                     //Catches if one datanode was not able to retrieve block
                     catch(Exception e){
-                        //If looped through all datanodes for this block without successfuly getting the block throw an error
+                        //If looped through all datanodes for this block without successfully getting the block throw an error
                         if(i == (locationresponse.getDatanodeCount() - 1)){
-                            throw new Exception("Unable to retrieve a portion of this file");
+                            System.out.println("Unable to retrieve a portion of this file");
+                            return;
                         }
                         else{ //try the next DataNode
                             continue;
@@ -170,7 +202,7 @@ public class Client
             output = NNStub.closeFile(closerequest.build().toByteArray());
             CloseFileResponse closeresponse = CloseFileResponse.parseFrom(output);
             //Make sure file was closed properly
-            if(closeresponse.getStatus() < 0){ throw new Exception("Retrieved File but could not close File in File System");}
+            if(closeresponse.getStatus() < 0){ throw new Exception("Could not close File in File System");}
         }
         catch(Exception e){
             System.err.println("Error retreiving File: "+ e.toString());
@@ -192,7 +224,7 @@ public class Client
             if(response.getStatus() == -1){throw new Exception("Received Bad Response from NameNode");}
             System.out.println("Directory:");
             for (String file: response.getFilenameList()){
-                System.out.println("\t-"+file);
+                System.out.println("\t- "+file);
             }
         }
         catch(Exception e){
@@ -216,10 +248,10 @@ public class Client
         String name = config.get(0).split(":")[1];
         String ip = config.get(1).split(":")[1];
         int port = Integer.parseInt(config.get(2).split(":")[1]);
-
         //Intitalize the Client
         Client Me = new Client();
-        Me.block_size = Integer.parseInt(config.get(5).split(":")[1]);
+        Me.heartbeat = Integer.parseInt(config.get(5).split(":")[1]);
+        Me.block_size = Integer.parseInt(config.get(6).split(":")[1]);
         Me.NNStub = Me.GetNNStub(name,ip,port);
         System.out.println("Welcome to HDFS!!");
         Scanner Scan = new Scanner(System.in);
