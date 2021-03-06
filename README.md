@@ -18,7 +18,7 @@ called the NameNode.
 ## Required Dependencies
 - Program uses the Protobuf-3.11.4 Library (Already included in package)
 - com.google.code.gson:gson:2.8.6
-- 
+
 ## Server Configuration
 - 2 Configuration files (nn_config.txt and dn_config.txt) are located in the src directory
 - The nn_config file must be configured for all classes
